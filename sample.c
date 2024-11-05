@@ -11,7 +11,12 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Please provide the address of a file as an input.\n");
         return -1;
     }
-    char cmd[BUFSIZE] = "wc -c < ";
-    strncat(cmd, argv[1], BUFSIZE - strlen(cmd) - 1);
-    system(cmd);
+
+    struct stat fileStat;
+    if (stat(argv[1], &fileStat) != 0) {
+        fprintf(stderr, "Could not access file.\n");
+        return -1;
+    }
+ 
+    printf("File size: %ld bytes\n", fileStat.st_size);
 }
